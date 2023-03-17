@@ -7,8 +7,7 @@ class ColumnaProvider with ChangeNotifier {
 
   Future<List<ColumnaModel>> getColumnas() async {
     final db = await dbProvider.database;
-    final res =
-        await db!.query('colum LEFT JOIN task ON task.id = task.column_id');
+    final res = await db!.query('colum');
     List<ColumnaModel> list =
         res.isNotEmpty ? res.map((c) => ColumnaModel.fromMap(c)).toList() : [];
     return list;

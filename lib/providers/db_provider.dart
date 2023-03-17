@@ -28,15 +28,20 @@ class DBProvider {
           id INTEGER PRIMARY KEY, user TEXT, password TEXT
         ); ''');
         await db.insert('users',
-            UserModel(id: 1, user: 'Admin', password: 'Admin123').toMap());
+            UserModel(id: 1, user: 'admin', password: '12345678').toMap());
 
         await db.execute(''' CREATE TABLE colum(
           id INTEGER PRIMARY KEY, nombre_colum TEXT
         ); ''');
+
         await db.insert(
             'colum', ColumnaModel(id: 1, nombreColum: 'To Do').toMap());
         await db.insert(
             'colum', ColumnaModel(id: 2, nombreColum: 'In Progress').toMap());
+        await db.insert(
+            'colum', ColumnaModel(id: 3, nombreColum: 'In Stop').toMap());
+        await db.insert(
+            'colum', ColumnaModel(id: 4, nombreColum: 'Finish').toMap());
 
         await db.execute(''' CREATE TABLE task(
           id INTEGER PRIMARY KEY, nombre_task TEXT, tag TEXT, column_id INTEGER,

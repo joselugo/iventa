@@ -20,7 +20,7 @@ class WidgetColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     final taskProvider = Provider.of<TaskProvider>(context);
     return Container(
-      width: 300,
+      width: 250,
       height: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
