@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iventa/models/task_models.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/providers.dart';
@@ -41,9 +42,28 @@ class WidgetColumn extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: tasks.length,
-              itemBuilder: (context, index) => tasks[index],
+            child: DragTarget<WidgetTask>(
+              onAccept: (widgetTask) {
+                taskProvider.moveTask(
+                    widgetTask.taskName as TaskModel, columnId);
+              },
+              builder: (context, candidateData, rejectedData) {
+                return ListView.builder(
+                  itemCount: tasks.length,
+                  itemBuilder: (context, index) {
+                    final task = tasks[index];
+                    return Draggable<WidgetTask>(
+                      data: task,
+                      child: task,
+                      feedback: task,
+                      childWhenDragging: const SizedBox(),
+                      onDragCompleted: () {
+                        taskProvider.removeTask(task.taskName as TaskModel);
+                      },
+                    );
+                  },
+                );
+              },
             ),
           ),
         ],

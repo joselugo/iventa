@@ -76,5 +76,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
 //usar la funcion para covertir el color hexadecimal en la bd a RGB
 Color hexToColor(String code) {
-  return Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
+  switch (code) {
+    case 'todo':
+      return Colors.grey[300]!;
+    case 'progress':
+      return Colors.yellow[200]!;
+    case 'stop':
+      return Colors.red[200]!;
+    case 'done':
+      return Colors.green[200]!;
+    default:
+      return Colors.deepPurple[300]!;
+  }
 }

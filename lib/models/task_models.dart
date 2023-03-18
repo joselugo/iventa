@@ -13,6 +13,22 @@ class TaskModel {
   String tag;
   int column_id;
 
+  //Nueva funcion
+  TaskModel copyWith({
+    int? id,
+    String? nombreTask,
+    String? tag,
+    int? column_id,
+  }) {
+    return TaskModel(
+      id: id ?? this.id,
+      nombreTask: nombreTask ?? this.nombreTask,
+      tag: tag ?? this.tag,
+      column_id: column_id ?? this.column_id,
+    );
+  }
+  //fin
+
   factory TaskModel.fromJson(String str) => TaskModel.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());

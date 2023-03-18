@@ -41,7 +41,7 @@ class DBProvider {
         await db.insert(
             'colum', ColumnaModel(id: 3, nombreColum: 'In Stop').toMap());
         await db.insert(
-            'colum', ColumnaModel(id: 4, nombreColum: 'Finish').toMap());
+            'colum', ColumnaModel(id: 4, nombreColum: 'Done').toMap());
 
         await db.execute(''' CREATE TABLE task(
           id INTEGER PRIMARY KEY, nombre_task TEXT, tag TEXT, column_id INTEGER,
@@ -52,7 +52,7 @@ class DBProvider {
             TaskModel(
                     id: 1,
                     nombreTask: 'Llamada Agendada',
-                    tag: '#100ffff',
+                    tag: 'todo',
                     column_id: 1)
                 .toMap());
         await db.insert(
@@ -60,7 +60,7 @@ class DBProvider {
             TaskModel(
                     id: 2,
                     nombreTask: 'Interesado',
-                    tag: '#ff8000',
+                    tag: 'progress',
                     column_id: 1)
                 .toMap());
         await db.insert(
@@ -68,8 +68,8 @@ class DBProvider {
             TaskModel(
                     id: 3,
                     nombreTask: 'Requiere Factura',
-                    tag: '#80ffff',
-                    column_id: 2)
+                    tag: 'done',
+                    column_id: 4)
                 .toMap());
       },
     );
