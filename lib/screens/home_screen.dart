@@ -15,6 +15,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final ColumnaProvider _columnaProvider = ColumnaProvider();
+
   @override
   Widget build(BuildContext context) {
     return InteractiveViewer(
@@ -23,52 +25,48 @@ class _HomeScreenState extends State<HomeScreen> {
           title: const Text('iVentas'),
         ),
         drawer: const DraweMenu(),
-        body: Consumer<ColumnaProvider>(
-          builder: (context, columnaProvider, child) {
-            return FutureBuilder<List<ColumnaModel>>(
-              future: columnaProvider.getColumnas(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  final columnas = snapshot.data!;
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: columnas.map((columna) {
-                        return FutureBuilder<List<TaskModel>>(
-                          future: Provider.of<TaskProvider>(context)
-                              .getTasksByColumnId(columna.id),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              final tasks = snapshot.data!;
-                              final filteredTasks = tasks
-                                  .where((task) => task.column_id == columna.id)
-                                  .toList();
-                              return WidgetColumn(
-                                columnId: columna.id,
-                                columnName: columna.nombreColum,
-                                tasks: filteredTasks
-                                    .map((task) => WidgetTask(
-                                          taskName: task.nombreTask,
-                                          color: hexToColor(task.tag),
-                                        ))
-                                    .toList(),
-                              );
-                            } else if (snapshot.hasError) {
-                              return Text('${snapshot.error}');
-                            }
-                            return const CircularProgressIndicator();
-                          },
-                        );
-                      }).toList(),
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                }
-                return const CircularProgressIndicator();
-              },
-            );
+        body: FutureBuilder<List<ColumnaModel>>(
+          future: _columnaProvider.getColumnas(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final columnas = snapshot.data!;
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: columnas.map((columna) {
+                    return FutureBuilder<List<TaskModel>>(
+                      future: Provider.of<TaskProvider>(context)
+                          .getTasksByColumnId(columna.id),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          final tasks = snapshot.data!;
+                          final filteredTasks = tasks
+                              .where((task) => task.column_id == columna.id)
+                              .toList();
+                          return WidgetColumn(
+                            columnId: columna.id,
+                            columnName: columna.nombreColum,
+                            tasks: filteredTasks
+                                .map((task) => WidgetTask(
+                                      taskName: task.nombreTask,
+                                      color: hexToColor(task.tag),
+                                    ))
+                                .toList(),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
+                        return const CircularProgressIndicator();
+                      },
+                    );
+                  }).toList(),
+                ),
+              );
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+            return const CircularProgressIndicator();
           },
         ),
       ),

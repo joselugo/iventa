@@ -28,7 +28,7 @@ class DBProvider {
           id INTEGER PRIMARY KEY, user TEXT, password TEXT
         ); ''');
         await db.insert('users',
-            UserModel(id: 1, user: 'admin', password: '12345678').toMap());
+            UserModel(id: 1, user: 'Admin', password: 'Admin123').toMap());
 
         await db.execute(''' CREATE TABLE colum(
           id INTEGER PRIMARY KEY, nombre_colum TEXT
